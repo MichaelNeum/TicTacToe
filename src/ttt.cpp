@@ -2,7 +2,14 @@
 #include <algorithm>
 #include <array>
 
-std::array<std::array<int, 3>, 3> ticks = {0};
+enum stringCode {
+    eQ, eW, eE,
+    eA, eS, eD,
+    eY, eX, eC,
+    eError
+};
+
+std::array<std::array<int, 3>, 3> ticks = {{{0,0,0}, {0,0,0}, {0,0,0}}};
 
 void printField(std::array<std::array<int, 3>, 3> ticks);
 std::string symbol(int input);
@@ -10,13 +17,35 @@ void handleUserInput(std::string input);
 
 int main()
 {
-    handleUserInput("Hello");
+    std::string input;
+    std::cin >> input;
+    handleUserInput(input);
     printField(ticks);
     return 0;
 }
 
+stringCode hashit(std::string const& input) {
+    if(input == "q") return eQ;
+    else if(input == "w") return eW;
+    else if(input == "e") return eE;
+    else if(input == "a") return eA;
+    else if(input == "s") return eS;
+    else if(input == "d") return eD;
+    else if(input == "y") return eY;
+    else if(input == "x") return eX;
+    else if(input == "c") return eC;
+    else return eError;
+}
+
 void handleUserInput(std::string input) {
     if(input.length() > 1) std::cout << "Invalid input. Try agian!" << std::endl;
+    switch(hashit(input)){
+        case eQ:
+            std::cout << "done";
+            break;
+        default:
+            break;
+    }
 }
 
 void printField(std::array<std::array<int, 3>, 3> ticks) {
