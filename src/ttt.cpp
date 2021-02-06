@@ -14,6 +14,7 @@ std::array<std::array<int, 3>, 3> ticks = {{{0,0,0}, {0,0,0}, {0,0,0}}};
 void printField(std::array<std::array<int, 3>, 3> ticks);
 std::string symbol(int input);
 void handleUserInput(std::string input);
+bool checkField(int x, int y);
 
 /*************
 TikTakToe Game 
@@ -43,33 +44,45 @@ stringCode hashit(std::string const& input) {
 }
 
 void handleUserInput(std::string input) {
-    if(input.length() > 1) std::cout << "Invalid input. Try agian!" << std::endl;
+    if(input.length() > 1) {
+        std::cout << "Invalid input. Try agian!" << std::endl;
+        return;
+    }
     switch(hashit(input)){
         case eQ:
+            if(checkField(0,0)) return;
             ticks[0][0] = 1;
             break;
         case eW:
+            if(checkField(0,1)) return;
             ticks[0][1] = 1;
             break;
         case eE:
+            if(checkField(0,2)) return;
             ticks[0][2] = 1;
             break;
         case eA:
+            if(checkField(1,0)) return;
             ticks[1][0] = 1;
             break;
         case eS:
+            if(checkField(1,1)) return;
             ticks[1][1] = 1;
             break;
         case eD:
+            if(checkField(1,2)) return;
             ticks[1][2] = 1;
             break;
         case eY:
+            if(checkField(2,0)) return;
             ticks[2][0] = 1;
             break;
         case eX:
+            if(checkField(2,1)) return;
             ticks[2][1] = 1;
             break;
         case eC:
+            if(checkField(2,2)) return;
             ticks[2][2] = 1;
             break;
         default:
@@ -90,4 +103,12 @@ std::string symbol(int input) {
     if(input == 1) return "o";
     else if(input == 2) return "x";
     return " ";
+}
+
+bool checkField(int x, int y) {
+    if(ticks[x][y] != 0) {
+        std::cout << "Field already placed. Try another one!" << std::endl;
+        return true;
+    }
+    return false;
 }
