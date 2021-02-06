@@ -6,11 +6,17 @@ std::array<std::array<int, 3>, 3> ticks = {0};
 
 void printField(std::array<std::array<int, 3>, 3> ticks);
 std::string symbol(int input);
+void handleUserInput(std::string input);
 
 int main()
 {
+    handleUserInput("Hello");
     printField(ticks);
     return 0;
+}
+
+void handleUserInput(std::string input) {
+    if(input.length() > 1) std::cout << "Invalid input. Try agian!" << std::endl;
 }
 
 void printField(std::array<std::array<int, 3>, 3> ticks) {
