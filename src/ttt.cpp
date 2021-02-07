@@ -1,12 +1,16 @@
 #include <iostream>
 #include <algorithm>
 #include <array>
+#include <tuple>
 #include "userinput.hpp"
 
 std::array<std::array<int, 3>, 3> field = {{{0,0,0}, {0,0,0}, {0,0,0}}};
 
 void printField(std::array<std::array<int, 3>, 3> field);
 std::string symbol(int input);
+bool checkWin(std::tuple<int, int>);
+int row(std::tuple<int,int> lastTick);
+int column(std::tuple<int,int> lastTick);
 
 /*************
 TikTakToe Game 
@@ -18,8 +22,12 @@ int main()
         std::string userInput;
         std::cin >> userInput;
         if(userInput == "exit") break;
-        ui.handleUserInput(userInput);
+        bool result = checkWin(ui.handleUserInput(userInput));
         printField(field);
+        if(result) {
+            std::cout << "You won!";
+            break;
+        }
     }
     return 0;
 }
@@ -36,4 +44,49 @@ std::string symbol(int input) {
     if(input == 1) return "o";
     else if(input == 2) return "x";
     return " ";
+}
+
+bool checkWin(std::tuple<int, int> lastTick) {
+    if(row(lastTick) == -1) return false;
+    bool result = false;
+    for(int i = 0; i < 2; i++) {
+        if(field[row(lastTick)][i] != field[row(lastTick)][i+1]) {
+            result = false;
+            break;
+        }
+        result = true;
+    }
+    if(result) return result;
+    for(int i = 0; i < 2; i++) {
+        if(field[i][column(lastTick)] != field[i+1][column(lastTick)]) {
+            result = false;
+            break;
+        }
+        result = true;
+    }
+    if(result) return result;
+    for(int i = 0; i < 2; i++) {
+        if(field[i][i] != field[i+1][i+1] || field[1][1] == 0) {
+            result = false;
+            break;
+        }
+        result = true;
+    }
+    if(result) return result;
+    for(int i = 0; i < 2; i++) {
+        if(field[i][2-i] != field[i+1][2-i-1] || field[1][1] == 0) {
+            result = false;
+            break;
+        }
+        result = true;
+    }
+    return result;
+}
+
+int row(std::tuple<int,int> lastTick) {
+    return std::get<0>(lastTick);
+}
+
+int column(std::tuple<int,int> lastTick) {
+    return std::get<1>(lastTick);
 }
