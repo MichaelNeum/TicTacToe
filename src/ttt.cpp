@@ -17,15 +17,19 @@ TikTakToe Game
 *************/
 int main()
 {
-    UserInput ui(&field);
+    int player = 1;
+    int count = 0;
+    UserInput ui(&field, &count);
     while(1) {
+        player = count % 2 + 1;
+        count++;
         std::string userInput;
         std::cin >> userInput;
         if(userInput == "exit") break;
-        bool result = checkWin(ui.handleUserInput(userInput));
+        bool result = checkWin(ui.handleUserInput(userInput, player));
         printField(field);
         if(result) {
-            std::cout << "You won!";
+            std::cout << "Player " << player << " won!";
             break;
         }
     }

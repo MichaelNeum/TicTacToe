@@ -13,17 +13,18 @@ class UserInput
             eY, eX, eC,
             eError
         };
-
+        int* _count;
         bool checkField(int x, int y);
         stringCode hashit(std::string const& input);
     public:
-        std::tuple<int, int> handleUserInput(std::string input);
-        UserInput(std::array<std::array<int,3>,3>* field): _field(field) {}
+        std::tuple<int, int> handleUserInput(std::string input, int player);
+        UserInput(std::array<std::array<int,3>,3>* field, int* count): _field(field), _count(count) {}
 };
 
 bool UserInput::checkField(int x, int y) {
     if((*_field)[x][y] != 0) {
         std::cout << "Field already placed. Try another one!" << std::endl;
+        (*_count)--;
         return true;
     }
     return false;
@@ -42,7 +43,7 @@ UserInput::stringCode UserInput::hashit(std::string const& input) {
     else return eError;
 }
 
-std::tuple<int, int> UserInput::handleUserInput(std::string input) {
+std::tuple<int, int> UserInput::handleUserInput(std::string input, int player) {
     std::tuple<int, int> result = {-1, -1};
     if(input.length() > 1) {
         std::cout << "Invalid input. Try agian!" << std::endl;
@@ -51,47 +52,47 @@ std::tuple<int, int> UserInput::handleUserInput(std::string input) {
     switch(hashit(input)){
         case eQ:
             if(checkField(0,0)) break;
-            (*_field)[0][0] = 1;
+            (*_field)[0][0] = player;
             result = {0,0};
             break;
         case eW:
             if(checkField(0,1)) break;
-            (*_field)[0][1] = 1;
+            (*_field)[0][1] = player;
             result = {0,1};
             break;
         case eE:
             if(checkField(0,2)) break;
-            (*_field)[0][2] = 1;
+            (*_field)[0][2] = player;
             result = {0,2};
             break;
         case eA:
             if(checkField(1,0)) break;
-            (*_field)[1][0] = 1;
+            (*_field)[1][0] = player;
             result = {1,0};
             break;
         case eS:
             if(checkField(1,1)) break;
-            (*_field)[1][1] = 1;
+            (*_field)[1][1] = player;
             result = {1,1};
             break;
         case eD:
             if(checkField(1,2)) break;
-            (*_field)[1][2] = 1;
+            (*_field)[1][2] = player;
             result = {1,2};
             break;
         case eY:
             if(checkField(2,0)) break;
-            (*_field)[2][0] = 1;
+            (*_field)[2][0] = player;
             result = {2,0};
             break;
         case eX:
             if(checkField(2,1)) break;
-            (*_field)[2][1] = 1;
+            (*_field)[2][1] = player;
             result = {2,1};
             break;
         case eC:
             if(checkField(2,2)) break;
-            (*_field)[2][2] = 1;
+            (*_field)[2][2] = player;
             result = {2,2};
             break;
         default:
