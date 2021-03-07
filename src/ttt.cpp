@@ -24,7 +24,6 @@ int main()
     UserInput ui(&field, &count);
     Minimax mm;
     std::cout << "TicTacToe" << std::endl;
-    //printField(field);
     while(1) {
         player = count % 2 + 1;
         count++;
@@ -46,6 +45,10 @@ int main()
         printField(field);
         if(result) {
             std::cout << "Player " << comHum(player) << " won!";
+            break;
+        }
+        if(mm.depth(field) == 0) {
+            std::cout << "Nobody won!" << std::endl;
             break;
         }
     }

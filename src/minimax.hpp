@@ -45,7 +45,6 @@ std::array<int,3> Minimax::minimax(std::array<std::array<int,3>,3> state, int de
         std::array<int,3> result = {-1, -1, checkWin(lastPlay, state) * (-1)*player};
         return result;
     }
-    //std::cout << "Player: " << player << std::endl;
     std::vector<Cells> empty = emptyCells(state);
     for(int i = 0; i < empty.size(); i++) {
         int x = empty[i].x;
@@ -56,7 +55,6 @@ std::array<int,3> Minimax::minimax(std::array<std::array<int,3>,3> state, int de
         state[x][y] = 0;
         score[0] = x;
         score[1] = y;
-        //std::cout << "Score: " << x << y << score[2] << std::endl;
         if(player == 1) {
             if(score[2] > best[2]) best = score;
         }
