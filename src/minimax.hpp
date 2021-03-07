@@ -36,11 +36,32 @@ int Minimax::depth(std::array<std::array<int,3>,3> state) {
 }
 
 std::array<int,3> Minimax::minimax(std::array<std::array<int,3>,3> state, int depth, int player, std::tuple<int,int> lastPlay) {
+    std::array<int,3> best;
+    if(player == 1) best = {-1, -1, -10000};
+    else best = {-1, -1, 10000};
+
     if(depth == 0 || checkWin(lastPlay, state)) {
         std::array<int,3> result = {-1, -1, checkWin(lastPlay, state) * player};
         return result;
     }
-    return {0,0,0};
+    std::vector<Cells> empty = emptyCells(state);
+    for(int i = 0; i < empty.size(); i++) {
+        int x = empty[i].x;
+        int y = empty[i].y;
+        state[x][y] = player;
+        lastPlay = {x,y};
+        std::array<int, 3> score = minimax(state, depth - 1, player, lastPlay);
+        state[x][y] = 0;
+        score[0] = x;
+        score[1] = y;
+        if(player == 1) {
+            if(score[2] > best[2]) best = score;
+        }
+        else {
+            if(score[2] < best[2]) best = score;
+        }
+    }
+    return best;
 }
 
 bool Minimax::checkWin(std::tuple<int, int> lastTick, std::array<std::array<int,3>,3> field) {
