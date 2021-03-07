@@ -14,5 +14,11 @@ class Minimax
 };
 
 int Minimax::depth() {
-    return 0;
+    int result = 0;
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+            if((*_field)[i][j] == 0) result++;
+        }
+    }
+    return result;
 }
