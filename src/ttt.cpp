@@ -12,13 +12,17 @@ std::string symbol(int input);
 bool checkWin(std::tuple<int, int>);
 int row(std::tuple<int,int> lastTick);
 int column(std::tuple<int,int> lastTick);
-std::string comHum(int);
+std::string comHum(int,bool);
+bool choice();
+bool playAgain();
 
 /*************
 TikTakToe Game 
 *************/
 int main()
 {
+    std::cout << "Welcome to TicTacToe!\nUse:\nq w e\na s d \ny x c\nto place your marks!\n\nDo you want to play vs another human{1} or vs the computer{2}?: " << std::endl;
+    bool pvp = choice();
     int player = 1;
     int count = 0;
     UserInput ui(&field, &count);
@@ -28,7 +32,7 @@ int main()
         player = count % 2 + 1;
         count++;
         std::tuple<int, int> lastPlay;
-        if(player == 1) {
+        if(player == 1 || pvp) {
             std::string userInput;
             std::cin >> userInput;
             if(userInput == "exit") break;
@@ -44,12 +48,12 @@ int main()
         bool result = checkWin(lastPlay);
         printField(field);
         if(result) {
-            std::cout << "Player " << comHum(player) << " won!";
-            break;
+            std::cout << "Player " << comHum(player, pvp) << " won!";
+            if(!playAgain()) break;
         }
         if(mm.depth(field) == 0) {
             std::cout << "Nobody won!" << std::endl;
-            break;
+            if(!playAgain()) break;
         }
     }
     return 0;
@@ -114,7 +118,23 @@ int column(std::tuple<int,int> lastTick) {
     return std::get<1>(lastTick);
 }
 
-std::string comHum(int player) {
-    if(player == 1) return "Human";
+std::string comHum(int player, bool pvp) {
+    if(player == 1 && pvp) return "Player 1";
+    else if(player == 2 && pvp) return "Player 2";
+    else if(player == 1) return "Human";
     else return "Computer";
+}
+
+bool choice() {
+    std::string result;
+    std::cin >> result;
+    return result == "1";
+}
+
+bool playAgain() {
+    std::cout << "Do you want to play again? yes{1} no{2}: " << std::endl;
+    std::string result;
+    std::cin >> result;
+    field = {{{0,0,0}, {0,0,0}, {0,0,0}}};
+    return result == "1";
 }
