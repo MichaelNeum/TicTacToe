@@ -3,6 +3,7 @@
 #include <array>
 #include <tuple>
 #include "userinput.hpp"
+#include "minimax.hpp"
 
 std::array<std::array<int, 3>, 3> field = {{{0,0,0}, {0,0,0}, {0,0,0}}};
 
