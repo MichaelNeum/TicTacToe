@@ -21,7 +21,7 @@ int main()
     int player = 1;
     int count = 0;
     UserInput ui(&field, &count);
-    Minimax mm(&field);
+    Minimax mm;
     while(1) {
         player = count % 2 + 1;
         count++;
@@ -34,7 +34,7 @@ int main()
             std::cout << "Player " << player << " won!";
             break;
         }
-        std::cout << mm.depth() << std::endl;
+        std::cout << mm.depth(field) << std::endl;
     }
     return 0;
 }

@@ -2,23 +2,103 @@
 #include <algorithm>
 #include <array>
 #include <tuple>
+#include <vector>
+
+class Cells
+{
+    public:
+        int x;
+        int y;
+        Cells(int X, int Y): x(X), y(Y) {}
+};
 
 class Minimax
 {
     private:
-        std::array<std::array<int,3>,3>* _field;
+        bool checkWin(std::tuple<int, int> lastTick, std::array<std::array<int,3>,3> field);
+        int row(std::tuple<int,int> lastTick);
+        int column(std::tuple<int,int> lastTick);
+        std::vector<Cells> emptyCells(std::array<std::array<int,3>,3> state);
     public:
-        Minimax(std::array<std::array<int,3>,3>* field): _field(field) {}
-        int depth();
+        int depth(std::array<std::array<int,3>,3> state);
+        std::array<int,3> minimax(std::array<std::array<int,3>,3> state, int depth, int player, std::tuple<int,int> lastPlay);
 
 };
 
-int Minimax::depth() {
+int Minimax::depth(std::array<std::array<int,3>,3> state) {
     int result = 0;
     for(int i = 0; i < 3; i++) {
         for(int j = 0; j < 3; j++) {
-            if((*_field)[i][j] == 0) result++;
+            if(state[i][j] == 0) result++;
         }
     }
+    return result;
+}
+
+std::array<int,3> Minimax::minimax(std::array<std::array<int,3>,3> state, int depth, int player, std::tuple<int,int> lastPlay) {
+    if(depth == 0 || checkWin(lastPlay, state)) {
+        std::array<int,3> result = {-1, -1, checkWin(lastPlay, state) * player};
+        return result;
+    }
+    return {0,0,0};
+}
+
+bool Minimax::checkWin(std::tuple<int, int> lastTick, std::array<std::array<int,3>,3> field) {
+    if(row(lastTick) == -1) return false;
+    bool result = false;
+    for(int i = 0; i < 2; i++) {
+        if(field[row(lastTick)][i] != field[row(lastTick)][i+1]) {
+            result = false;
+            break;
+        }
+        result = true;
+    }
+    if(result) return result;
+    for(int i = 0; i < 2; i++) {
+        if(field[i][column(lastTick)] != field[i+1][column(lastTick)]) {
+            result = false;
+            break;
+        }
+        result = true;
+    }
+    if(result) return result;
+    for(int i = 0; i < 2; i++) {
+        if(field[i][i] != field[i+1][i+1] || field[1][1] == 0) {
+            result = false;
+            break;
+        }
+        result = true;
+    }
+    if(result) return result;
+    for(int i = 0; i < 2; i++) {
+        if(field[i][2-i] != field[i+1][2-i-1] || field[1][1] == 0) {
+            result = false;
+            break;
+        }
+        result = true;
+    }
+    return result;
+}
+
+int Minimax::row(std::tuple<int,int> lastTick) {
+    return std::get<0>(lastTick);
+}
+
+int Minimax::column(std::tuple<int,int> lastTick) {
+    return std::get<1>(lastTick);
+}
+
+std::vector<Cells> Minimax::emptyCells(std::array<std::array<int,3>,3> state) {
+    std::vector<Cells> result;
+    int count = 0;
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+            if(state[i][j] == 0) {
+                count++;
+                result.push_back(Cells(i,j));
+            }
+        }
+    }
+    result.push_back(Cells(-1,-1));
     return result;
 }
