@@ -12,6 +12,7 @@ std::string symbol(int input);
 bool checkWin(std::tuple<int, int>);
 int row(std::tuple<int,int> lastTick);
 int column(std::tuple<int,int> lastTick);
+std::string comHum(int);
 
 /*************
 TikTakToe Game 
@@ -22,24 +23,31 @@ int main()
     int count = 0;
     UserInput ui(&field, &count);
     Minimax mm;
+    std::cout << "TicTacToe" << std::endl;
+    //printField(field);
     while(1) {
         player = count % 2 + 1;
         count++;
-        std::string userInput;
-        std::cin >> userInput;
-        if(userInput == "exit") break;
-        std::tuple<int, int> lastPlay = ui.handleUserInput(userInput, player);
+        std::tuple<int, int> lastPlay;
+        if(player == 1) {
+            std::string userInput;
+            std::cin >> userInput;
+            if(userInput == "exit") break;
+            lastPlay = ui.handleUserInput(userInput, player);
+        }
+        else {
+            
+            std::array<int,3> play =  mm.minimax(field, mm.depth(field), 1, lastPlay);
+            lastPlay = {play[0], play[1]};
+            std::cout << play[0] << play[1] << std::endl;
+            field[play[0]][play[1]] = player;
+        }
         bool result = checkWin(lastPlay);
         printField(field);
         if(result) {
-            std::cout << "Player " << player << " won!";
+            std::cout << "Player " << comHum(player) << " won!";
             break;
         }
-        if(player == 1) {
-            std::array<int,3> play =  mm.minimax(field, mm.depth(field), 1, lastPlay);
-            std::cout << play[0] << " " << play[1] << std::endl;
-        }
-        
     }
     return 0;
 }
@@ -101,4 +109,9 @@ int row(std::tuple<int,int> lastTick) {
 
 int column(std::tuple<int,int> lastTick) {
     return std::get<1>(lastTick);
+}
+
+std::string comHum(int player) {
+    if(player == 1) return "Human";
+    else return "Computer";
 }

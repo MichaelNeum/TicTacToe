@@ -42,19 +42,21 @@ std::array<int,3> Minimax::minimax(std::array<std::array<int,3>,3> state, int de
     else best = {-1, -1, 10000};
 
     if(depth == 0 || checkWin(lastPlay, state)) {
-        std::array<int,3> result = {-1, -1, checkWin(lastPlay, state) * player};
+        std::array<int,3> result = {-1, -1, checkWin(lastPlay, state) * (-1)*player};
         return result;
     }
+    //std::cout << "Player: " << player << std::endl;
     std::vector<Cells> empty = emptyCells(state);
     for(int i = 0; i < empty.size(); i++) {
         int x = empty[i].x;
         int y = empty[i].y;
         state[x][y] = place(player);
         lastPlay = {x,y};
-        std::array<int, 3> score = minimax(state, depth - 1, -player, lastPlay);
+        std::array<int, 3> score = minimax(state, depth - 1, (-1)*player, lastPlay);
         state[x][y] = 0;
         score[0] = x;
         score[1] = y;
+        //std::cout << "Score: " << x << y << score[2] << std::endl;
         if(player == 1) {
             if(score[2] > best[2]) best = score;
         }
@@ -121,11 +123,10 @@ std::vector<Cells> Minimax::emptyCells(std::array<std::array<int,3>,3> state) {
             }
         }
     }
-    result.push_back(Cells(-1,-1));
     return result;
 }
 
 int Minimax::place(int player) {
-    if(player = 1) return 2;
+    if(player == 1) return 2;
     else return 1;
 }
