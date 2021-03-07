@@ -28,13 +28,18 @@ int main()
         std::string userInput;
         std::cin >> userInput;
         if(userInput == "exit") break;
-        bool result = checkWin(ui.handleUserInput(userInput, player));
+        std::tuple<int, int> lastPlay = ui.handleUserInput(userInput, player);
+        bool result = checkWin(lastPlay);
         printField(field);
         if(result) {
             std::cout << "Player " << player << " won!";
             break;
         }
-        std::cout << mm.depth(field) << std::endl;
+        if(player == 1) {
+            std::array<int,3> play =  mm.minimax(field, mm.depth(field), 1, lastPlay);
+            std::cout << play[0] << " " << play[1] << std::endl;
+        }
+        
     }
     return 0;
 }

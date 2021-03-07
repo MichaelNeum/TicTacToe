@@ -19,6 +19,7 @@ class Minimax
         int row(std::tuple<int,int> lastTick);
         int column(std::tuple<int,int> lastTick);
         std::vector<Cells> emptyCells(std::array<std::array<int,3>,3> state);
+        int place(int player);
     public:
         int depth(std::array<std::array<int,3>,3> state);
         std::array<int,3> minimax(std::array<std::array<int,3>,3> state, int depth, int player, std::tuple<int,int> lastPlay);
@@ -48,9 +49,9 @@ std::array<int,3> Minimax::minimax(std::array<std::array<int,3>,3> state, int de
     for(int i = 0; i < empty.size(); i++) {
         int x = empty[i].x;
         int y = empty[i].y;
-        state[x][y] = player;
+        state[x][y] = place(player);
         lastPlay = {x,y};
-        std::array<int, 3> score = minimax(state, depth - 1, player, lastPlay);
+        std::array<int, 3> score = minimax(state, depth - 1, -player, lastPlay);
         state[x][y] = 0;
         score[0] = x;
         score[1] = y;
@@ -122,4 +123,9 @@ std::vector<Cells> Minimax::emptyCells(std::array<std::array<int,3>,3> state) {
     }
     result.push_back(Cells(-1,-1));
     return result;
+}
+
+int Minimax::place(int player) {
+    if(player = 1) return 2;
+    else return 1;
 }
