@@ -39,14 +39,14 @@ int main()
             lastPlay = ui.handleUserInput(userInput, player);
         }
         else {
-            std::array<int,3> play =  mm.minimax(field, mm.depth(field), 1, lastPlay);
+            std::array<int,3> play = mm.minimax(field, mm.depth(field), 1, lastPlay);
             lastPlay = {play[0], play[1]};
             field[play[0]][play[1]] = player;
         }
         bool result = checkWin(lastPlay);
         printField();
         if(result) {
-            std::cout << "Player " << comHum(player, pvp) << " won!";
+            std::cout << comHum(player, pvp) << " won!";
             if(!playAgain()) break;
         }
         if(mm.depth(field) == 0) {
