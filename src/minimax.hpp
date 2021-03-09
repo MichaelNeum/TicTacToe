@@ -118,11 +118,9 @@ int Minimax::column(std::tuple<int,int> lastTick) {
 
 std::vector<Cells> Minimax::emptyCells(std::array<std::array<int,3>,3> state) {
     std::vector<Cells> result;
-    int count = 0;
     for(int i = 0; i < 3; i++) {
         for(int j = 0; j < 3; j++) {
             if(state[i][j] == 0) {
-                count++;
                 result.push_back(Cells(i,j));
             }
         }
