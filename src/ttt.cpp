@@ -12,7 +12,7 @@ std::string symbol(int input);
 bool checkWin(std::tuple<int, int>);
 int row(std::tuple<int,int> lastTick);
 int column(std::tuple<int,int> lastTick);
-std::string comHum(int,bool);
+std::string Player(int,bool);
 bool choice();
 bool playAgain();
 
@@ -46,7 +46,7 @@ int main()
         bool result = checkWin(lastPlay);
         printField();
         if(result) {
-            std::cout << comHum(player, pvp) << " won!";
+            std::cout << Player(player, pvp) << " won!" << std::endl;
             if(!playAgain()) break;
         }
         if(mm.depth(field) == 0) {
@@ -116,7 +116,7 @@ int column(std::tuple<int,int> lastTick) {
     return std::get<1>(lastTick);
 }
 
-std::string comHum(int player, bool pvp) {
+std::string Player(int player, bool pvp) {
     if(player == 1 && pvp) return "Player 1";
     else if(player == 2 && pvp) return "Player 2";
     else if(player == 1) return "Human";
