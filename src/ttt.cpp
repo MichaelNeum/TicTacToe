@@ -27,7 +27,7 @@ int main()
     int count = 0;
     UserInput ui(&field, &count);
     Minimax mm;
-    std::tuple<int, int> lastPlay;
+    std::tuple<int, int> lastPlay = {-1,-1};
     std::cout << "TicTacToe" << std::endl;
     while(1) {
         player = count % 2 + 1;

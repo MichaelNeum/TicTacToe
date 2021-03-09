@@ -41,6 +41,8 @@ std::array<int,3> Minimax::minimax(std::array<std::array<int,3>,3> state, int de
     if(player == 1) best = {-1, -1, -1000000};
     else best = {-1, -1, 1000000};
 
+    if(depth == 9) return {1,1,1};
+
     if(depth == 0 || checkWin(lastPlay, state)) {
         std::array<int,3> result = {-1, -1, checkWin(lastPlay, state) * (-1)*player};
         return result;

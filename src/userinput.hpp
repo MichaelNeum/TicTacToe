@@ -46,7 +46,8 @@ UserInput::stringCode UserInput::hashit(std::string const& input) {
 std::tuple<int, int> UserInput::handleUserInput(std::string input, int player) {
     std::tuple<int, int> result = {-1, -1};
     if(input.length() > 1) {
-        std::cout << "Invalid input. Try agian!" << std::endl;
+        std::cout << "Invalid input. Try again!" << std::endl;
+        (*_count)--;
         return result;
     }
     switch(hashit(input)){
@@ -96,6 +97,7 @@ std::tuple<int, int> UserInput::handleUserInput(std::string input, int player) {
             result = {2,2};
             break;
         default:
+            (*_count)--;
             break;
     }
     return result;
