@@ -38,8 +38,8 @@ int Minimax::depth(std::array<std::array<int,3>,3> state) {
 
 std::array<int,3> Minimax::minimax(std::array<std::array<int,3>,3> state, int depth, int player, std::tuple<int,int> lastPlay) {
     std::array<int,3> best;
-    if(player == 1) best = {-1, -1, -10000};
-    else best = {-1, -1, 10000};
+    if(player == 1) best = {-1, -1, -1000000};
+    else best = {-1, -1, 1000000};
 
     if(depth == 0 || checkWin(lastPlay, state)) {
         std::array<int,3> result = {-1, -1, checkWin(lastPlay, state) * (-1)*player};

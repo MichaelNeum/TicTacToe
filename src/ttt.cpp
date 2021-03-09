@@ -27,11 +27,11 @@ int main()
     int count = 0;
     UserInput ui(&field, &count);
     Minimax mm;
+    std::tuple<int, int> lastPlay;
     std::cout << "TicTacToe" << std::endl;
     while(1) {
         player = count % 2 + 1;
         count++;
-        std::tuple<int, int> lastPlay;
         if(player == 1 || pvp) {
             std::string userInput;
             std::cin >> userInput;
@@ -39,10 +39,8 @@ int main()
             lastPlay = ui.handleUserInput(userInput, player);
         }
         else {
-            
             std::array<int,3> play =  mm.minimax(field, mm.depth(field), 1, lastPlay);
             lastPlay = {play[0], play[1]};
-            std::cout << play[0] << play[1] << std::endl;
             field[play[0]][play[1]] = player;
         }
         bool result = checkWin(lastPlay);
