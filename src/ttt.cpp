@@ -7,7 +7,7 @@
 
 std::array<std::array<int, 3>, 3> field = {{{0,0,0}, {0,0,0}, {0,0,0}}};
 
-void printField(std::array<std::array<int, 3>, 3> field);
+void printField();
 std::string symbol(int input);
 bool checkWin(std::tuple<int, int>);
 int row(std::tuple<int,int> lastTick);
@@ -44,7 +44,7 @@ int main()
             field[play[0]][play[1]] = player;
         }
         bool result = checkWin(lastPlay);
-        printField(field);
+        printField();
         if(result) {
             std::cout << "Player " << comHum(player, pvp) << " won!";
             if(!playAgain()) break;
@@ -57,7 +57,7 @@ int main()
     return 0;
 }
 
-void printField(std::array<std::array<int, 3>, 3> field) {
+void printField() {
     for(int i = 0; i < 3; i++) {
         std::cout << symbol(field[i][0]) << "|" << symbol(field[i][1]) << "|" << symbol(field[i][2]) << std::endl;
         if(i != 2) std::cout << "-----" << std::endl;
