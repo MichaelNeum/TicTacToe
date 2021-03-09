@@ -7,6 +7,8 @@
 
 std::array<std::array<int, 3>, 3> field = {{{0,0,0}, {0,0,0}, {0,0,0}}};
 
+constexpr int Human = 1;
+
 void printField();
 std::string symbol(int input);
 bool checkWin(std::tuple<int, int>);
@@ -23,7 +25,7 @@ int main()
 {
     std::cout << "Welcome to TicTacToe!\nUse:\nq w e\na s d \ny x c\nto place your marks!\n\nDo you want to play vs another human{1} or vs the computer{2}?: " << std::endl;
     bool pvp = choice();
-    int player = 1;
+    int player = Human;
     int count = 0;
     UserInput userInput(&field, &count);
     Minimax miniMax;
@@ -32,14 +34,14 @@ int main()
     while(1) {
         player = count % 2 + 1;
         count++;
-        if(player == 1 || pvp) {
+        if(player == Human || pvp) {
             std::string input;
             std::cin >> input;
             if(input == "exit") break;
             lastPlay = userInput.handleUserInput(input, player);
         }
         else {
-            std::array<int,3> play = miniMax.minimax(field, miniMax.depth(field), 1, lastPlay);
+            std::array<int,3> play = miniMax.minimax(field, miniMax.depth(field), Computer, lastPlay);
             lastPlay = {play[0], play[1]};
             field[play[0]][play[1]] = player;
         }

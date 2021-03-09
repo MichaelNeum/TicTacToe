@@ -4,6 +4,10 @@
 #include <tuple>
 #include <vector>
 
+constexpr int Computer = 1;
+constexpr int PlayerValue = 1;
+constexpr int ComputerValue = 2;
+
 class Cells
 {
     public:
@@ -38,7 +42,7 @@ int Minimax::depth(std::array<std::array<int,3>,3> state) {
 
 std::array<int,3> Minimax::minimax(std::array<std::array<int,3>,3> state, int depth, int player, std::tuple<int,int> lastPlay) {
     std::array<int,3> best;
-    if(player == 1) best = {-1, -1, -1000000};
+    if(player == Computer) best = {-1, -1, -1000000};
     else best = {-1, -1, 1000000};
 
     if(depth == 9) return {1,1,1};
@@ -57,7 +61,7 @@ std::array<int,3> Minimax::minimax(std::array<std::array<int,3>,3> state, int de
         state[x][y] = 0;
         score[0] = x;
         score[1] = y;
-        if(player == 1) {
+        if(player == Computer) {
             if(score[2] > best[2]) best = score;
         }
         else {
@@ -127,6 +131,6 @@ std::vector<Cells> Minimax::emptyCells(std::array<std::array<int,3>,3> state) {
 }
 
 int Minimax::place(int player) {
-    if(player == 1) return 2;
-    else return 1;
+    if(player == Computer) return ComputerValue;
+    else return PlayerValue;
 }
